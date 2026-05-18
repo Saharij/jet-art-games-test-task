@@ -8,15 +8,16 @@ export class ListItem extends Container {
   constructor(width: number, height: number) {
     super();
     this.item = new Graphics();
-
-    const rect = this.item.roundRect(0, 0, width, height - 16, 16);
-    rect.fill({ color: COLOR });
-
-    this.addChild(rect);
+    this.drawItem(width, height);
+    this.addChild(this.item);
   }
 
   resize(width: number, height: number) {
+    this.drawItem(width, height);
+  }
+
+  private drawItem(width: number, height: number) {
     this.item.clear();
-    this.item.roundRect(0, 0, width, height - 16, 16).fill({ color: COLOR });
+    this.item.roundRect(0, 8, width, height - 16, 16).fill({ color: COLOR });
   }
 }

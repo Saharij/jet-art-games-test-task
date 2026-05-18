@@ -30,8 +30,12 @@ export class InputHandler {
     this.canvas.addEventListener("mousedown", this.onMouseDown);
     window.addEventListener("mousemove", this.onMouseMove);
     window.addEventListener("mouseup", this.onMouseUp);
-    this.canvas.addEventListener("touchstart", this.onTouchStart);
-    this.canvas.addEventListener("touchmove", this.onTouchMove);
+    this.canvas.addEventListener("touchstart", this.onTouchStart, {
+      passive: false,
+    });
+    this.canvas.addEventListener("touchmove", this.onTouchMove, {
+      passive: false,
+    });
     this.canvas.addEventListener("touchend", this.onTouchEnd);
     this.canvas.addEventListener("wheel", this.onWheelEvent, {
       passive: false,
@@ -53,17 +57,17 @@ export class InputHandler {
     }
 
     const now = performance.now();
-    const dT = now - this.drag.lastTime;
-    const dY = y - this.drag.lastY;
+    const deltaTime = now - this.drag.lastTime;
+    const deltaY = y - this.drag.lastY;
 
-    if (dT > 0) {
-      const instantVelocity = dY / dT;
+    if (deltaTime > 0) {
+      const instantVelocity = deltaY / deltaTime;
       this.drag.velocity = this.drag.velocity * 0.6 + instantVelocity * 0.4;
     }
 
     this.drag.lastY = y;
     this.drag.lastTime = now;
-    this.onDragMove?.(dY);
+    this.onDragMove?.(deltaY);
   }
 
   private endDrag() {
@@ -78,7 +82,7 @@ export class InputHandler {
     e.preventDefault();
 
     if (e.touches.length) {
-      this.beginDrag?.(e.touches[0].clientY);
+      this.beginDrag(e.touches[0].clientY);
     }
   };
 
@@ -86,7 +90,7 @@ export class InputHandler {
     e.preventDefault();
 
     if (e.touches.length) {
-      this.moveDrag?.(e.touches[0].clientY);
+      this.moveDrag(e.touches[0].clientY);
     }
   };
 

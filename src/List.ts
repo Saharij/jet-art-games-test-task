@@ -1,4 +1,5 @@
 import { Application, Container } from "pixi.js";
+
 import { ListItem } from "./ListItem";
 import { InputHandler } from "./InputHandler";
 
@@ -37,7 +38,6 @@ export class List {
       this.velocity = 0;
       this.scroll(deltaY);
     };
-
     this.input.onDragEnd = (vel: number) => {
       this.velocity = vel * 16;
       this.startAnimation();

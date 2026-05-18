@@ -48,25 +48,13 @@ export class App {
   };
 
   private tryFullScreen() {
-    const isMobile = /Mobi|Addinor|iPhone|iPad/i.test(navigator.userAgent);
-    const el = document.documentElement as any;
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
-    const requestFS =
-      el.requestFullscreen ||
-      el.webkitRequestFullscreen ||
-      el.mozRequestFullScreen ||
-      el.msRequestFullscreen;
-
-    alert("try out " + isMobile + requestFS);
     if (isMobile && document.documentElement.requestFullscreen) {
-      alert("try in");
       document.addEventListener(
         "touchstart",
         () => {
-          document.documentElement
-            .requestFullscreen()
-            .then(() => alert("try succeed"))
-            .catch(() => {});
+          document.documentElement.requestFullscreen().catch(() => {});
         },
         { once: true },
       );
